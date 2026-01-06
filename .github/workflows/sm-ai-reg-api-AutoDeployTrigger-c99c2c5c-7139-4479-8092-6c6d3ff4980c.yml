@@ -1,0 +1,49 @@
+name: Trigger auto deployment for sm-ai-reg-api
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/sm-ai-reg-api-AutoDeployTrigger-c99c2c5c-7139-4479-8092-6c6d3ff4980c.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.SMAIREGAPI_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.SMAIREGAPI_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.SMAIREGAPI_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}
+          _dockerfilePathKey_: _dockerfilePath_
+          _targetLabelKey_: _targetLabel_
+          registryUrl: 
+          registryUsername: ${{ secrets.SMAIREGAPI_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.SMAIREGAPI_REGISTRY_PASSWORD }}
+          containerAppName: sm-ai-reg-api
+          resourceGroup: OpenAi-Train1
+          imageToBuild: default/[parameters('containerAppName')]:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
+
+
