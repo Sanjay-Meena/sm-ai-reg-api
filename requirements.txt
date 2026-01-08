@@ -1,10 +1,12 @@
 #force rebuild
-fastapi==0.115.0        # or your pinned version
-uvicorn[standard]==0.30.0
+fastapi
+uvicorn[standard]
+gunicorn
 python-multipart
 pypdf
 openai
 numpy
+
 
 
 
