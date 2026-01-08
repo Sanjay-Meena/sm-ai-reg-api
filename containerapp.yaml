@@ -1,0 +1,12 @@
+
+# containerapp.yaml
+properties:
+  configuration:
+    ingress:
+      external: true
+      targetPort: 8080
+  template:
+    containers:
+      - name: sm-ai-reg-api
+        command: ["uvicorn"]
+        args: ["application:app","--host","0.0.0.0","--port","8080"]
