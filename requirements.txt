@@ -1,11 +1,11 @@
 #force rebuild
 fastapi
 uvicorn[standard]
-gunicorn
 python-multipart
 pypdf
 openai
 numpy
+
 
 
 
