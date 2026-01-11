@@ -7,17 +7,3 @@ python-multipart
 pypdf
 openai
 numpy
-
-
-
-
-
-
-
-
-
-
-
-
-
-
