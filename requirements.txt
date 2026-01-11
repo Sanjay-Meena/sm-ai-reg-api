@@ -2,10 +2,12 @@
 fastapi
 gunicorn
 uvicorn
+uvicorn[standard]
 python-multipart
 pypdf
 openai
 numpy
+
 
 
 
