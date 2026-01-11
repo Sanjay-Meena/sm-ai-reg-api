@@ -43,6 +43,10 @@ async def upload_pdf(file: UploadFile = File(...)):
                "source": file.filename
            })
    return {"chunks_indexed": len(vector_store)}
+# ---------- Health ----------
+@app.get("/health")
+def health():
+   return {"status": "healthy"}
 # ---------- Ask ----------
 @app.get("/ask")
 def ask(question: str):
